@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WP</title>
+</head>
+<body>
+
+<form method="POST" th:action="@{'/books/{id}' (id=${book?.id})}">
+    <div>
+        <label for="name">Name</label>
+        <input type="text"
+               id="name"
+               name="name"
+               th:value="${book?.name}"
+               required>
+    </div>
+    <div>
+        <label for="price">Price</label>
+        <input type="number"
+               id="price"
+               th:value="${book?.price}"
+               name="price" required>
+    </div>
+    <div>
+        <label for="quantity">Quantity</label>
+        <input type="number"
+               id="quantity"
+               th:value="${book?.quantity}"
+               name="quantity" required>
+    </div>
+    <div>
+        <label>Genre</label><br/>
+        <select id="genres" name="genres" multiple="multiple" size="5">
+            <option th:each="cat: ${genres}" th:value="${cat.id}" th:text="${cat.name}"> [cat.name]</option>
+        </select>
+    </div>
+
+    <button id="submit" type="submit">Submit</button>
+    <a id="back" href="/books" type="button" class="btn btn-primary">Back to books</a>
+</form>
+
+
+
+<div>
+    <ul id="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</div>
+
+</body>
+</html>

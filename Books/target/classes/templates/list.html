@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WP</title>
+</head>
+<body>
+
+<h1><p>Welcome to books catalog</p></h1>
+<table border="1"width="25%"height="50%">
+
+    <div>
+        <form id="filter-form">
+
+            <label for="nameSearch">Name</label>
+            <input id="nameSearch" type="text" name="nameSearch"/>
+            <label for="genreId">Genre</label>
+            <select id="genreId" name="genreId">
+                <option value="">All</option>
+                <option th:each="cat: ${genres}" th:value="${cat.id}" th:text="${cat.name}"> [cat.name]</option>
+            </select>
+            <button id="filter" type="submit">Filter</button>
+        </form>
+        <div>
+            <!-- ProductsController.showAdd -->
+            <a href="/books/add" class="add-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                Add new book
+            </a>
+        </div>
+        <table>
+            <tr>
+                <th>Book name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Genres</th>
+                <th>Author</th>
+                <!--    <th>Actions</th> -->
+            </tr>
+            <tr class="item" th:each="prod: ${books}">
+                <td th:text="${prod.name}">[prod.name]</td>
+                <td th:text="${prod.price}">[prod.price]</td>
+                <td th:text="${prod.quantity}">[prod.quantity]</td>
+                <td>
+                    <ul>
+                        <li th:each="cat: ${prod.genres}" th:text="${cat.name}">[cat.name]</li>
+                    </ul>
+                </td>
+                <td th:text="${prod.creator?.username}">[prod.creator.username]</td>
+                <td>
+                    <!-- BookssController.delete -->
+                    <form method="POST" th:action="@{'/books/{id}/delete' (id=${prod.id})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button type="submit" class="delete-item">Delete</button>
+                    </form>
+                    <!-- BooksController.showEdit -->
+                    <a th:href="@{'/books/{id}/edit' (id=${prod.id})}" class="edit-item" sec:authorize="hasRole('ROLE_ADMIN')">Edit</a>
+                </td>
+
+                <td><a href="${addcart}">ADD TO CART</a></td>
+            </tr>
+
+
+        </table>
+
+    </div>
+    <div>
+        <ul id="nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/useapp">Connect with Facebook</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</body>
+</html>
